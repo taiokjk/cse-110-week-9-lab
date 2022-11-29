@@ -69,25 +69,126 @@
     </form>
 
     <section id="error-btns">
-      <button>Console Log</button>
-      <button>Console Error</button>
-      <button>Console Count</button>
-      <button>Console Warn</button>
-      <button>Console Assert</button>
-      <button>Console Clear</button>
-      <button>Console Dir</button>
-      <button>Console dirxml</button>
-      <button>Console Group Start</button>
-      <button>Console Group End</button>
-      <button>Console Table</button>
-      <button>Start Timer</button>
-      <button>End Timer</button>
-      <button>Console Trace</button>
-      <button>Trigger a Global Error</button>
+      <button id="log-btn">Console Log</button>
+      <button id="error-btn">Console Error</button>
+      <button id="count-btn">Console Count</button>
+      <button id="warn-btn">Console Warn</button>
+      <button id="assert-btn">Console Assert</button>
+      <button id="clear-btn">Console Clear</button>
+      <button id="dir-btn">Console Dir</button>
+      <button id="dirxml-btn">Console dirxml</button>
+      <button id="group-start-btn">Console Group Start</button>
+      <button id="group-end-btn">Console Group End</button>
+      <button id="table-btn">Console Table</button>
+      <button id="start-timer-btn">Start Timer</button>
+      <button id="end-timer-btn">End Timer</button>
+      <button id="trace-btn">Console Trace</button>
+      <button id="global-error-btn">Trigger a Global Error</button>
     </section>
   </main>
 
   <script>
+    // Step 2
+    let logBtn = document.querySelector('#log-btn');
+    logBtn.onclick = () => {
+      console.log('Console Log Demo');
+    }
+
+    let errorBtn = document.querySelector('#error-btn');
+    errorBtn.onclick = () => {
+      console.error('Console Error Demo');
+    }
+
+    let countBtn = document.querySelector('#count-btn');
+    countBtn.onclick = () => {
+      console.count('label');
+    }
+
+    let warnBtn = document.querySelector('#warn-btn');
+    warnBtn.onclick = () => {
+      console.warn('Console Warn Button');
+    }
+
+    let assertBtn = document.querySelector('#assert-btn');
+    const number = 2;
+    const errorMsg = 'The number does not equal 3 ';
+    assertBtn.onclick = () => {
+      console.assert(number == 3, { number, errorMsg });
+    }
+
+    let clearBtn = document.querySelector('#clear-btn');
+    clearBtn.onclick = () => {
+      console.clear();
+    }
+
+    let dirBtn = document.querySelector('#dir-btn');
+    dirBtn.onclick = () => {
+      console.dir(dirBtn);
+    }
+
+    let dirxmlBtn = document.querySelector('#dirxml-btn');
+    dirxmlBtn.onclick = () => {
+      console.dirxml(dirxmlBtn);
+    }
+
+    let groupStartBtn = document.querySelector('#group-start-btn');
+    groupStartBtn.onclick = () => {
+      console.group();
+    }
+
+    let groupEndBtn = document.querySelector('#group-end-btn');
+    groupEndBtn.onclick = () => {
+      console.groupEnd();
+    }
+
+    let tableBtn = document.querySelector('#table-btn');
+    var array = [
+      {
+        name: 'Software Engineering',
+        num: 110
+      },
+      {
+        name: 'Programing Language',
+        num: 130
+      },
+      {
+        name: 'Advanced Software Engineering',
+        num: 112
+      }
+    ];
+    tableBtn.onclick = () => {
+      console.table(array);
+    }
+
+    let startTimerBtn = document.querySelector('#start-timer-btn');
+    startTimerBtn.onclick = () => {
+      console.time('Timer Button');
+    }
+
+    let endTimerBtn = document.querySelector('#end-timer-btn');
+    endTimerBtn.onclick = () => {
+      console.timeEnd('Timer Button');
+    }
+
+    function deep() {
+      deeper();
+    }
+    function deeper() {
+      deepest();
+    }
+    function deepest() {
+      console.trace();
+    }
+    let traceBtn = document.querySelector('#trace-btn');
+    traceBtn.onclick = () => {
+      deep();
+    }
+
+    let globalErrorBtn = document.querySelector('#global-error-btn');
+    globalErrorBtn.onclick = () => {
+      boom();
+    }
+
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -95,13 +196,29 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+
+      // Step 3
+      try {
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      }
+      catch (e) {
+        throw new CalculationError("Invalid or unexpected token");
+      }
     });
 
-    let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
+    // Step 4
+    class CalculationError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "SyntaxError";
+      }
+    }
 
-    // Start your code here
-    // You may move this JS to another file if you wish
+    // Step 5
+    window.onerror = () => {
+      console.log("Sadly an erorr happened my friend");
+    };
+
   </script>
 </body>
 
